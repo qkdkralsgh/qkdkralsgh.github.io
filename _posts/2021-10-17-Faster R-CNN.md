@@ -23,7 +23,7 @@ sidebar:
   따라서 **Faster R-CNN**에서는 **detection에서 쓰인 conv feature을 RPN에서도 공유**해서
   **RoI생성역시 CNN level에서 수행**하여 속도를 향상시킨다.
   
-  **Region Proposal도 Selective search 쓰지말고 CNN - (classification / bounding box regression) 이 네트워크 안에서 같이 해보자!**
+  #### "Region Proposal도 Selective search 쓰지말고 CNN - (classification / bounding box regression) 이 네트워크 안에서 같이 해보자!"
 
 
 ---
@@ -39,8 +39,8 @@ sidebar:
 
 <center><img src="/assets/images/Faster_R-CNN1.png" width="50%" height="50%"></center>
 
-그리고 Faster R-CNN에서는 RPN 네트워크에서 사용할 CNN과
-Fast R-CNN에서 classification, bbox regression을 위해 사용한 CNN 네트워크를 공유하자는 개념에서 나왔다.
+
+그리고 Faster R-CNN에서는 RPN 네트워크에서 사용할 CNN과 Fast R-CNN에서 classification, bbox regression을 위해 사용한 CNN 네트워크를 공유하자는 개념에서 나왔다.
     
 
 <center><img src="/assets/images/Faster_R-CNN2.png"></center>
@@ -48,9 +48,12 @@ Fast R-CNN에서 classification, bbox regression을 위해 사용한 CNN 네트�
 
 결국 위 그림에서와 같이 CNN을 통과하여 생성된 conv feature map이 RPN에 의해 RoI를 생성한다.
 
+
 주의해야할 것이 생성된 RoI는 feature map에서의 RoI가 아닌 original image에서의 RoI이다.
 
+
 (그래서 코드 상에서도 anchor box의 scale은 original image 크기에 맞춰서 (128, 256, 512)와 같이 생성하고 이 anchor box와 network의 output 값 사이의 loss를 optimize하도록 훈련시킨다.)
+
 
 따라서 original image위에서 생성된 RoI는 아래 그림과 같이 conv feature map의 크기에 맞게 rescaling된다.
 
