@@ -8,6 +8,7 @@ author_profile: false
 sidebar:
     nav: "docs"
 ---
+
 안녕하세요! 이번 포스팅 내용은 Faster R-CNN 논문리뷰입니다.
 
 
@@ -17,12 +18,14 @@ sidebar:
 
 - R-CNN에서는 3가지 모듈 (region proposal, classification, bounding box regression)을 각각 따로따로 수행한다.
   **(1)** region proposal 추출 → 각 region proposal별로 CNN 연산 → **(2)** classification, **(3)** bounding box regression
+
 - Fast R-CNN에서는 region proposal을 CNN level로 통과시켜 classification, bounding box regression을 하나로 묶었다.
   **(1)** region proposal 추출 → 전체 image CNN 연산 → RoI projection, RoI Pooling → **(2)** classification, bounding box regression 
+
 - 그러나 여전히 region proposal인 Selective search알고리즘을 **CNN외부에서 연산**하므로 RoI 생성단계가 병목이다.
   따라서 **Faster R-CNN**에서는 **detection에서 쓰인 conv feature을 RPN에서도 공유**해서
   **RoI생성역시 CNN level에서 수행**하여 속도를 향상시킨다.
-  
+
   #### "Region Proposal도 Selective search 쓰지말고 CNN - (classification | bounding box regression) 이 네트워크 안에서 같이 해보자!"
 
 
@@ -57,19 +60,19 @@ sidebar:
 
 따라서 original image위에서 생성된 RoI는 아래 그림과 같이 conv feature map의 크기에 맞게 rescaling된다.
 
-    
+
 <center><img src="/assets/images/Faster_R-CNN3.png" width="50%" height="50%"></center>
 
-    
+
 **<center>feature map에 투영된 RoI</center>**
 
-    
+
 이렇게 feature map에 RoI가 투영되고 나면 FC layer에 의해 classification과 bbox regression이 수행된다.
 
-    
+
 <center><img src="/assets/images/Faster_R-CNN1.png" width="70%" height="70%"></center>
-    
-    
+
+
 위 그림에서 보다시피 마지막에 FC layer를 사용하기에 input size를 맞춰주기 위해 RoI pooling을 사용한다.
 
 RoI pooling을 사용하니까 RoI들의 size가 달라도 되는것처럼 original image의 input size도 달라도된다.
